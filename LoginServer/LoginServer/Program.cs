@@ -74,21 +74,22 @@ namespace com.xgame.LoginServer
                     controller = receiveData[0] >> 4;
                     action = receiveData[0] & 15;
 
-                    if (controller == EnumProtocol.CONTROLLER_INFO)
-                    {
-                        if (action == EnumProtocol.ACTION_LOGIN)
-                        {
-                            //requestLogin(receiveData, receiveDataLength, client);
-                        }
-                        else if (action == EnumProtocol.ACTION_REQUEST_CHARACTER)
-                        {
-                            //requestCharacter(receiveData, receiveDataLength, client);
-                        }
-                        else if (action == EnumProtocol.ACTION_QUICK_START)
-                        {
-                            //requestQuickStart(receiveData, receiveDataLength, client);
-                        }
-                    }
+                    router.triggerProtocol(receiveData[0], null);
+                    //if (controller == EnumProtocol.CONTROLLER_INFO)
+                    //{
+                    //    if (action == EnumProtocol.ACTION_LOGIN)
+                    //    {
+                    //        //requestLogin(receiveData, receiveDataLength, client);
+                    //    }
+                    //    else if (action == EnumProtocol.ACTION_REQUEST_CHARACTER)
+                    //    {
+                    //        //requestCharacter(receiveData, receiveDataLength, client);
+                    //    }
+                    //    else if (action == EnumProtocol.ACTION_QUICK_START)
+                    //    {
+                    //        //requestQuickStart(receiveData, receiveDataLength, client);
+                    //    }
+                    //}
                 }
             }
         }
