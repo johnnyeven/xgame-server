@@ -20,7 +20,7 @@ namespace com.xgame.LoginServer
         static void Main(string[] args)
         {
             router = new ProtocolRouter();
-            router.Bind(0x11, typeof(ProtocolRequestLogin));
+            router.Bind(0x0080, typeof(ProtocolRequestLogin));
 
             String connectionString = "Data Source=localhost;Initial Catalog=pulse_db_platform;User ID=root;Password=84@41%%wi96^4";
             dbConnection = new MySqlConnection(connectionString);
@@ -68,28 +68,12 @@ namespace com.xgame.LoginServer
 
                 if (receiveDataLength > 0)
                 {
-                    int controller, action;
-
                     //取得操作数
-                    controller = receiveData[0] >> 4;
-                    action = receiveData[0] & 15;
+                    UInt32 packageLength = BitConverter.ToUInt32(new byte[] { receiveData[3], receiveData[2], receiveData[1], receiveData[0] }, 0);
+                    UInt16 protocolId = BitConverter.ToUInt16(new byte[] { receiveData[5], receiveData[4] }, 0);
+                    int offset = 6;
 
-                    router.triggerProtocol(receiveData[0], null);
-                    //if (controller == EnumProtocol.CONTROLLER_INFO)
-                    //{
-                    //    if (action == EnumProtocol.ACTION_LOGIN)
-                    //    {
-                    //        //requestLogin(receiveData, receiveDataLength, client);
-                    //    }
-                    //    else if (action == EnumProtocol.ACTION_REQUEST_CHARACTER)
-                    //    {
-                    //        //requestCharacter(receiveData, receiveDataLength, client);
-                    //    }
-                    //    else if (action == EnumProtocol.ACTION_QUICK_START)
-                    //    {
-                    //        //requestQuickStart(receiveData, receiveDataLength, client);
-                    //    }
-                    //}
+                    router.triggerProtocol(protocolId, null);
                 }
             }
         }

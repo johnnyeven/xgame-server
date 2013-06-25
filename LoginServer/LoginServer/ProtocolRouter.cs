@@ -10,19 +10,19 @@ namespace com.xgame.LoginServer.core.protocol
 {
     class ProtocolRouter
     {
-        private Dictionary<UInt32, Type> _protocolDictionary;
+        private Dictionary<UInt16, Type> _protocolDictionary;
 
         public ProtocolRouter()
         {
-            _protocolDictionary = new Dictionary<uint, Type>();
+            _protocolDictionary = new Dictionary<UInt16, Type>();
         }
 
-        public void Bind(UInt32 protocolId, Type protocol)
+        public void Bind(UInt16 protocolId, Type protocol)
         {
             _protocolDictionary[protocolId] = protocol;
         }
 
-        public void UnBind(UInt32 protocolId)
+        public void UnBind(UInt16 protocolId)
         {
             if (_protocolDictionary.ContainsKey(protocolId))
             {
@@ -30,12 +30,12 @@ namespace com.xgame.LoginServer.core.protocol
             }
         }
 
-        public bool HasBind(UInt32 protocolId)
+        public bool HasBind(UInt16 protocolId)
         {
             return _protocolDictionary.ContainsKey(protocolId);
         }
 
-        public void triggerProtocol(UInt32 protocolId, Object param)
+        public void triggerProtocol(UInt16 protocolId, Object param)
         {
             if (_protocolDictionary.ContainsKey(protocolId))
             {
