@@ -42,9 +42,11 @@ namespace com.xgame.GameServer
             server.Listen(10);
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("等待客户端连接...");
                 Socket client = server.Accept();
                 IPEndPoint clientEnpPoint = client.RemoteEndPoint as IPEndPoint;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("客户端已连接, IP:" + clientEnpPoint.Address + ", 端口:" + clientEnpPoint.Port);
                 Thread acceptThread = new Thread(new ParameterizedThreadStart(Accept));
                 acceptThread.Start(client);
@@ -88,6 +90,8 @@ namespace com.xgame.GameServer
                     router.triggerProtocol(protocolId, param);
                 }
             }
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("客户端已断开, IP:" + ((IPEndPoint)client.RemoteEndPoint).Address + ", 端口:" + ((IPEndPoint)client.RemoteEndPoint).Port);
         }
     }
 }
