@@ -7,11 +7,11 @@ using System.Net;
 using System.Net.Sockets;
 
 using com.xgame.common.protocol;
-using com.xgame.LoginServer.common;
-using com.xgame.LoginServer.common.protocol;
 using com.xgame.common.database;
+using com.xgame.GameServer.common;
+using com.xgame.GameServer.common.protocol;
 
-namespace com.xgame.LoginServer
+namespace com.xgame.GameServer
 {
     class Program
     {
@@ -21,9 +21,9 @@ namespace com.xgame.LoginServer
         static void Main(string[] args)
         {
             router = new ProtocolRouter();
-            router.Bind(0x0080, typeof(ProtocolRequestLogin));
-
             DatabaseRouter.instance();
+
+            router.Bind(0x0000, typeof(ProtocolRequestInitInfo));
 
             ThreadStart starter = new ThreadStart(Listen);
             Thread listenThread = new Thread(starter);
@@ -36,13 +36,13 @@ namespace com.xgame.LoginServer
 
         public static void Listen()
         {
-            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 9040);
+            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 9050);
             Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             server.Bind(ipEndPoint);
             server.Listen(10);
             while (true)
             {
-                Console.WriteLine("等待客户端登陆连接...");
+                Console.WriteLine("等待客户端连接...");
                 Socket client = server.Accept();
                 IPEndPoint clientEnpPoint = client.RemoteEndPoint as IPEndPoint;
                 Console.WriteLine("客户端已连接, IP:" + clientEnpPoint.Address + ", 端口:" + clientEnpPoint.Port);

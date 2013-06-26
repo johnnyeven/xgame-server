@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using com.xgame.LoginServer.common.protocol;
+using com.xgame.common.protocol;
 
 namespace com.xgame.common.protocol
 {
