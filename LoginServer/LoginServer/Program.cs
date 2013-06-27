@@ -21,7 +21,7 @@ namespace com.xgame.LoginServer
         static void Main(string[] args)
         {
             router = new ProtocolRouter();
-            router.Bind(0x0080, typeof(ProtocolRequestLogin));
+            router.Bind(0x0020, typeof(ProtocolRequestQuickStart));
 
             DatabaseRouter.instance();
 

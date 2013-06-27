@@ -16,21 +16,19 @@ DROP TABLE IF EXISTS `pulse_db_game`.`game_account` ;
 CREATE  TABLE IF NOT EXISTS `pulse_db_game`.`game_account` (
   `account_id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
   `account_guid` BIGINT(20) NOT NULL ,
-  `account_server_id` INT(11) NOT NULL ,
   `nick_name` CHAR(32) NOT NULL ,
   `account_cash` BIGINT(20) NOT NULL DEFAULT '0' ,
-  `current_ship` INT NOT NULL ,
   `direction` INT NOT NULL COMMENT '朝向' ,
-  `current_sheild` INT NOT NULL ,
-  `max_sheild` INT NOT NULL ,
-  `current_armor` INT NOT NULL ,
-  `max_armor` INT NOT NULL ,
-  `current_construct` INT NOT NULL ,
-  `max_construct` INT NOT NULL ,
+  `current_health` INT NOT NULL ,
+  `max_health` INT NOT NULL ,
+  `current_mana` INT NOT NULL ,
+  `max_mana` INT NOT NULL ,
+  `current_energy` INT NOT NULL ,
+  `max_energy` INT NOT NULL ,
   `current_x` INT NOT NULL ,
   `current_y` INT NOT NULL ,
   PRIMARY KEY (`account_id`) ,
-  UNIQUE INDEX `guid` (`account_guid` ASC, `account_server_id` ASC) )
+  UNIQUE INDEX `guid` (`account_guid` ASC) )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
@@ -42,7 +40,7 @@ DROP TABLE IF EXISTS `pulse_db_game`.`game_closure_account` ;
 
 CREATE  TABLE IF NOT EXISTS `pulse_db_game`.`game_closure_account` (
   `GUID` BIGINT(20) NOT NULL AUTO_INCREMENT ,
-  `account_closure_reason` TEXT NULL DEFAULT NULL ,
+  `account_closure_reason` TEXT NOT NULL ,
   `account_closure_starttime` INT(11) NOT NULL ,
   `account_closure_endtime` INT(11) NOT NULL ,
   PRIMARY KEY (`GUID`) )
@@ -79,7 +77,6 @@ DROP TABLE IF EXISTS `pulse_db_game`.`game_order` ;
 CREATE  TABLE IF NOT EXISTS `pulse_db_game`.`game_order` (
   `funds_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `account_id` BIGINT(20) NOT NULL ,
-  `server_id` INT(11) NOT NULL ,
   `funds_flow_dir` ENUM('CHECK_IN','CHECK_OUT') NOT NULL ,
   `funds_amount` INT(11) NOT NULL ,
   `funds_time` INT(11) NOT NULL ,
@@ -89,26 +86,15 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `pulse_db_game`.`game_server`
+-- Table `pulse_db_game`.`game_hotkey_config`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `pulse_db_game`.`game_server` ;
+DROP TABLE IF EXISTS `pulse_db_game`.`game_hotkey_config` ;
 
-CREATE  TABLE IF NOT EXISTS `pulse_db_game`.`game_server` (
-  `game_id` INT(11) NOT NULL ,
-  `account_server_id` INT(11) NOT NULL ,
-  `server_name` CHAR(32) NOT NULL ,
-  `server_ip` CHAR(32) NOT NULL ,
-  `server_port` INT(11) NOT NULL ,
-  `server_message_ip` CHAR(32) NOT NULL ,
-  `server_message_port` INT(11) NOT NULL ,
-  `server_max_player` INT(11) NOT NULL DEFAULT '0' ,
-  `account_count` INT(11) NOT NULL DEFAULT '0' ,
-  `server_language` CHAR(16) NULL DEFAULT NULL ,
-  `server_recommend` TINYINT(1) NOT NULL DEFAULT '0' ,
-  PRIMARY KEY (`game_id`, `account_server_id`) ,
-  INDEX `server_recommend` USING BTREE (`server_recommend` ASC) )
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+CREATE  TABLE IF NOT EXISTS `pulse_db_game`.`game_hotkey_config` (
+  `account_id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `config` TEXT NOT NULL ,
+  PRIMARY KEY (`account_id`) )
+ENGINE = InnoDB;
 
 USE `pulse_db_platform` ;
 
@@ -135,7 +121,7 @@ CREATE  TABLE IF NOT EXISTS `pulse_db_platform`.`pulse_account` (
   `account_currentlogin` INT(11) NOT NULL DEFAULT '0' ,
   `account_lastip` CHAR(16) NOT NULL ,
   `account_currentip` CHAR(16) NOT NULL ,
-  `account_status` BIT(1) NOT NULL DEFAULT b'1' ,
+  `account_status` TINYINT(4) NOT NULL DEFAULT 1 ,
   PRIMARY KEY (`GUID`) ,
   INDEX `account_name` USING BTREE (`account_name` ASC, `account_pass` ASC) )
 ENGINE = MyISAM
@@ -185,13 +171,13 @@ CREATE  TABLE IF NOT EXISTS `pulse_db_platform`.`pulse_product` (
   `game_id` INT(11) NOT NULL ,
   `game_name` CHAR(64) NOT NULL ,
   `game_version` CHAR(16) NOT NULL ,
-  `game_platform` ENUM('web','ios','android') NULL DEFAULT 'ios' ,
+  `game_platform` ENUM('web','ios','android') NOT NULL DEFAULT 'ios' ,
   `auth_key` CHAR(128) NOT NULL ,
-  `game_pic_small` TEXT NULL DEFAULT NULL ,
-  `game_pic_middium` TEXT NULL DEFAULT NULL ,
-  `game_pic_big` TEXT NULL DEFAULT NULL ,
-  `game_download_iphone` TEXT NULL DEFAULT NULL ,
-  `game_download_ipad` TEXT NULL DEFAULT NULL ,
+  `game_pic_small` TEXT NOT NULL ,
+  `game_pic_middium` TEXT NOT NULL ,
+  `game_pic_big` TEXT NOT NULL ,
+  `game_download_iphone` TEXT NOT NULL ,
+  `game_download_ipad` TEXT NOT NULL ,
   `game_status` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '0=正式,1=内测,2=公测' ,
   PRIMARY KEY (`game_id`) )
 ENGINE = MyISAM
@@ -204,15 +190,6 @@ USE `pulse_db_platform` ;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
--- -----------------------------------------------------
--- Data for table `pulse_db_game`.`game_server`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `pulse_db_game`;
-INSERT INTO `pulse_db_game`.`game_server` (`game_id`, `account_server_id`, `server_name`, `server_ip`, `server_port`, `server_message_ip`, `server_message_port`, `server_max_player`, `account_count`, `server_language`, `server_recommend`) VALUES (1001, 3001, '测试服', '127.0.0.1', 9050, '127.0.0.1', 0, 10000, 0, 'CN', 1);
-
-COMMIT;
 
 -- -----------------------------------------------------
 -- Data for table `pulse_db_platform`.`pulse_product`

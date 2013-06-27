@@ -9,8 +9,7 @@ namespace com.xgame.LoginServer.common.protocol
     {
         public const UInt32 CONTROLLER_INFO = 0;
         public const UInt32 ACTION_LOGIN = 1;
-        public const UInt32 ACTION_REQUEST_CHARACTER = 2;
-        public const UInt32 ACTION_QUICK_START = 8;
+        public const UInt32 ACTION_QUICK_START = 2;
 
         public const UInt32 TYPE_INT = 0;
         public const UInt32 TYPE_LONG = 1;

@@ -14,12 +14,12 @@ using com.xgame.common.protocol;
 
 namespace com.xgame.LoginServer.common.protocol
 {
-    class ProtocolRequestLogin: IProtocol
+    class ProtocolRequestQuickStart: IProtocol
     {
         public void Execute(object param)
         {
             ProtocolParam vars = (ProtocolParam)param;
-            IPEndPoint clientEnpPoint = vars.client.RemoteEndPoint as IPEndPoint;
+
             int gameId = int.MinValue;
             for (uint i = vars.offset; i < vars.receiveDataLength; )
             {
@@ -42,37 +42,20 @@ namespace com.xgame.LoginServer.common.protocol
                 String guid = System.Guid.NewGuid().ToString("N");
                 String name = "Guest" + guid;
                 String pass = GetMD5(guid);
-                int serverId = int.MinValue;
                 Console.WriteLine("[QuickStart] Name: " + name + ", Pass: " + pass);
-
-                MySqlCommand command = new MySqlCommand();
-                command.Connection = DatabaseRouter.instance().gameDb();
-                command.CommandText = "select * from game_server where game_id=" + gameId + " and server_recommend=1";
-                MySqlDataReader serverResult = command.ExecuteReader();
-                if (serverResult.HasRows)
-                {
-                    serverResult.Read();
-                    serverId = serverResult.GetInt32("account_server_id");
-                }
-                else
-                {
-                    serverResult.Close();
-                    command.CommandText = "select * from game_server where game_id=" + gameId + " order by account_count desc";
-                    serverResult = command.ExecuteReader();
-                    if (serverResult.Read())
-                    {
-                        serverId = serverResult.GetInt32("account_server_id");
-                    }
-                }
-                serverResult.Close();
-                serverResult.Dispose();
 
                 if (name != "" && pass != "")
                 {
+                    MySqlCommand command = new MySqlCommand();
                     command.Connection = DatabaseRouter.instance().platformDb();
                     command.CommandText = "insert into pulse_account(account_name, account_pass) values ('" + name + "', '" + pass + "')";
                     command.ExecuteNonQuery();
                     int insertId = (int)command.LastInsertedId;
+
+                    //String hotkeyConfig = "<root><skill><hotkey code=\"112\" class=\"skill.Skill1\" /><hotkey code=\"113\" class=\"skill.Sheild1\" /></skill></root>";
+                    //command.Connection = DatabaseRouter.instance().gameDb();
+                    //command.CommandText = "insert into game_hotkey_config values (" + insertId + ", '" + hotkeyConfig + "')";
+                    //command.ExecuteNonQuery();
                     /*
                                         $jsonData = Array(
                                                 'message'	=>	ACK_SUCCESS,
@@ -83,7 +66,7 @@ namespace com.xgame.LoginServer.common.protocol
                      */
                     ServerPackage acksuccess = new ServerPackage();
                     acksuccess.success = EnumProtocol.ACK_CONFIRM;
-                    acksuccess.protocolId = 0x0080;
+                    acksuccess.protocolId = 0x0020;
                     acksuccess.param.Add(new object[] { 4, insertId });
                     acksuccess.param.Add(new object[] { name.Length, name });
                     acksuccess.param.Add(new object[] { pass.Length, pass });

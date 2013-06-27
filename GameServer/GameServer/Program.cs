@@ -23,7 +23,7 @@ namespace com.xgame.GameServer
             router = new ProtocolRouter();
             DatabaseRouter.instance();
 
-            router.Bind(0x0000, typeof(ProtocolRequestInitInfo));
+            router.Bind(0x0040, typeof(ProtocolRequestAccountRole));
 
             ThreadStart starter = new ThreadStart(Listen);
             Thread listenThread = new Thread(starter);

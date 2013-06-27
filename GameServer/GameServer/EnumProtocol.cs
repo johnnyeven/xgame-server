@@ -29,18 +29,18 @@ namespace com.xgame.GameServer.common.protocol
         public const UInt32 ACTION_SING = 3;
         //INFO
         public const UInt32 ACTION_INIT_INFO = 0;
-        public const UInt32 ACTION_CAMERAVIEW_OBJECT_LIST = 4;
         public const UInt32 ACTION_CHANGE_ACTION = 3;
         public const UInt32 ACTION_LOGIN = 1;
         public const UInt32 ACTION_LOGOUT = 2;
-        public const UInt32 ACTION_INIT_CHARACTER = 6;
+        public const UInt32 ACTION_INIT_CHARACTER = 4;
+        public const UInt32 ACTION_REGISTER_CHARACTER = 5;
         public const UInt32 ACTION_CHANGE_DIRECTION = 7;
 
         public const UInt32 ACK_CONFIRM = 1;
         public const UInt32 ACK_ERROR = 0;
         public const UInt32 ORDER_CONFIRM = 2;
 
-        public const UInt32 TYPE_UInt32 = 0;
+        public const UInt32 TYPE_INT = 0;
         public const UInt32 TYPE_LONG = 1;
         public const UInt32 TYPE_STRING = 2;
         public const UInt32 TYPE_FLOAT = 3;
