@@ -24,6 +24,7 @@ namespace com.xgame.GameServer
             DatabaseRouter.instance();
 
             router.Bind(0x0040, typeof(ProtocolRequestAccountRole));
+            router.Bind(0x0050, typeof(ProtocolRegisterAccountRole));
 
             ThreadStart starter = new ThreadStart(Listen);
             Thread listenThread = new Thread(starter);
