@@ -45,5 +45,7 @@ namespace com.xgame.GameServer.common.protocol
         public const UInt32 TYPE_STRING = 2;
         public const UInt32 TYPE_FLOAT = 3;
         public const UInt32 TYPE_BOOL = 4;
+        public const UInt32 TYPE_UINT = 5;
+        public const UInt32 TYPE_ULONG = 6;
     }
 }

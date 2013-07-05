@@ -43,6 +43,56 @@ namespace com.xgame.GameServer.common.protocol
             }
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("[RegisterAccountRole] GUID: " + guid + ", NickName: " + nickName);
+
+            if (guid != UInt32.MinValue && nickName != "")
+            {
+                MySqlCommand command = new MySqlCommand();
+                command.Connection = DatabaseRouter.instance().gameDb();
+                command.CommandText = "INSERT INTO game_account(account_guid, nick_name, current_health, max_health, current_mana, max_mana, current_energy, max_energy, current_x, current_y)values";
+                command.CommandText += "(" + guid + ", '" + nickName + "', 200, 200, 85, 85, 100, 100, 700, 700)";
+                command.ExecuteNonQuery();
+
+                ServerPackage package = new ServerPackage();
+                package.success = EnumProtocol.ACK_CONFIRM;
+                package.protocolId = 0x0050;
+
+                Int64 accountId = command.LastInsertedId;
+                package.param.Add(new Object[] { 8, accountId });
+
+                package.param.Add(new Object[] { nickName.Length, nickName });
+
+                UInt64 accountCash = 0;
+                package.param.Add(new Object[] { 8, accountCash });
+
+                UInt32 direction = 0;
+                package.param.Add(new Object[] { 4, direction });
+
+                UInt32 currentHealth = 200;
+                package.param.Add(new Object[] { 4, currentHealth });
+
+                UInt32 maxHealth = 200;
+                package.param.Add(new Object[] { 4, maxHealth });
+
+                UInt32 currentMana = 85;
+                package.param.Add(new Object[] { 4, currentMana });
+
+                UInt32 maxMana = 85;
+                package.param.Add(new Object[] { 4, maxMana });
+
+                UInt32 currentEnergy = 100;
+                package.param.Add(new Object[] { 4, currentEnergy });
+
+                UInt32 maxEnergy = 100;
+                package.param.Add(new Object[] { 4, maxEnergy });
+
+                Int32 x = 700;
+                package.param.Add(new Object[] { 4, x });
+
+                Int32 y = 700;
+                package.param.Add(new Object[] { 4, y });
+
+                CommandCenter.send(vars.client, package);
+            }
         }
     }
 }

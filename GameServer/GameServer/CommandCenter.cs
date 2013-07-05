@@ -56,6 +56,17 @@ namespace com.xgame.GameServer.core
                     dataLength += 4;
                     resultOffset += 4;
                 }
+                else if (parameter[1].GetType() == typeof(uint))
+                {
+                    result[resultOffset] = (byte)EnumProtocol.TYPE_UINT;
+                    dataLength += 1;
+                    resultOffset += 1;
+
+                    byte[] bytes = BitConverter.GetBytes((uint)parameter[1]);
+                    bytes.CopyTo(result, resultOffset);
+                    dataLength += 4;
+                    resultOffset += 4;
+                }
                 else if (parameter[1].GetType() == typeof(float))
                 {
                     result[resultOffset] = (byte)EnumProtocol.TYPE_FLOAT;
@@ -72,6 +83,16 @@ namespace com.xgame.GameServer.core
                     dataLength += 1;
                     resultOffset += 1;
                     byte[] bytes = BitConverter.GetBytes((long)parameter[1]);
+                    bytes.CopyTo(result, resultOffset);
+                    dataLength += 8;
+                    resultOffset += 8;
+                }
+                else if (parameter[1].GetType() == typeof(ulong))
+                {
+                    result[resultOffset] = (byte)EnumProtocol.TYPE_ULONG;
+                    dataLength += 1;
+                    resultOffset += 1;
+                    byte[] bytes = BitConverter.GetBytes((ulong)parameter[1]);
                     bytes.CopyTo(result, resultOffset);
                     dataLength += 8;
                     resultOffset += 8;
