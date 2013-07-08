@@ -34,7 +34,7 @@ namespace com.xgame.GameServer.common.protocol
         public const UInt32 ACTION_LOGOUT = 2;
         public const UInt32 ACTION_INIT_CHARACTER = 4;
         public const UInt32 ACTION_REGISTER_CHARACTER = 5;
-        public const UInt32 ACTION_CHANGE_DIRECTION = 7;
+        public const UInt32 ACTION_REQUEST_HOTKEY = 6;
 
         public const UInt32 ACK_CONFIRM = 1;
         public const UInt32 ACK_ERROR = 0;

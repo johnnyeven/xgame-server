@@ -53,7 +53,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolParam.cs" />
     <Compile Include="ProtocolRegisterAccountRole.cs" />
-    <Compile Include="ProtocolRequestAccountRole.cs" />
+    <Compile Include="ProtocolRequestAccountRole.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProtocolRequestHotkey.cs" />
     <Compile Include="ProtocolRouter.cs" />
     <Compile Include="QuadTree.cs" />
     <Compile Include="ServerPackage.cs" />

@@ -25,6 +25,7 @@ namespace com.xgame.GameServer
 
             router.Bind(0x0040, typeof(ProtocolRequestAccountRole));
             router.Bind(0x0050, typeof(ProtocolRegisterAccountRole));
+            router.Bind(0x0060, typeof(ProtocolRequestHotkey));
 
             ThreadStart starter = new ThreadStart(Listen);
             Thread listenThread = new Thread(starter);
