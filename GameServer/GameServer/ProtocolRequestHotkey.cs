@@ -56,7 +56,8 @@ namespace com.xgame.GameServer.common.protocol
                 }
                 else
                 {
-                    //package.param.Add(new Object[] { 8, (Int64)(-1) });
+                    String _initConfig = "<skill><hotkey code=\"112\" class=\"skill.Skill1\" /><hotkey code=\"113\" class=\"skill.Sheild1\" /></skill>";
+                    package.param.Add(new Object[] { _initConfig.Length, _initConfig });
                 }
                 result.Close();
                 
